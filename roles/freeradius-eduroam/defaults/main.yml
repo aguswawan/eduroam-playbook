@@ -4,15 +4,15 @@
 # Everything below should be overridden, and are here merely to make
 # sure we have something to work with when the templating engine runs
 eduroam_flr_servers:
-  - hostname: flr-cpt.eduroam.ac.za
-    ip: 155.232.195.20
+  - hostname: flr1.uii.ac.id
+    ip: 103.220.113.18
     port: 1812
     secret: MySharedSecret
-  - hostname: flr-jnb.eduroam.ac.za
-    ip: 155.232.195.21
-    port: 1812
-    secret: MySharedSecret
-radius_realm: example.ac.za
+#  - hostname: flr2.uii.ac.id
+#    ip: 155.232.195.21
+#    port: 1812
+#    secret: MySharedSecret
+radius_realm: uii.ac.id
 radius_local_users:
   - username: nren_radius_test
     password: PleaseChangeThisPassword
