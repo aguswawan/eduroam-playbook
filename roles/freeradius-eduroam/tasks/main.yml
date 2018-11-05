@@ -1,0 +1,121 @@
+---
+# tasks file for freeradius-eduroam
+- name: Install FreeRADIUS from Apt
+  # Note that we've deliberately elected to use FreeRADIUS from a
+  # package repository rather than compiling the most recent version as
+  # suggested in the eduroam docs. The assumption is that people who
+  # use this playbook are unlikely to track updates, so there's a higher
+  # chance of security updates being applied if we use a package.
+  become: yes
+  apt:
+    update_cache: yes
+    name: "{{item}}"
+    state: present
+  with_items:
+    - freeradius
+  tags: [ freeradius, apt ]
+
+- name: Install FreeRADIUS LDAP module from Apt
+  become: yes
+  apt:
+    name: freeradius-ldap
+    state: present
+  when: use_ldap is defined and use_ldap
+  tags: [ freeradius, apt ]
+
+- stat: path=/etc/freeradius/backup_3.0
+  register: rad_cfg_bak
+  tags: freeradius
+
+- name: Backup original freeradius configs
+  shell: |2
+    cp -arp /etc/freeradius/3.0 /etc/freeradius/backup_3.0
+
+    echo "# apt list --installed freeradius*
+    $(apt list --installed freeradius*)
+
+    # freeradius -v
+    $(freeradius -v)
+    " > /etc/freeradius/backup_3.0/version
+  when: rad_cfg_bak.stat.exists == False
+  become: yes
+  become_user: freerad
+  tags: freeradius
+
+- import_tasks: "tasks/eduroam-sp.yml"
+
+- import_tasks: "tasks/eduroam-idp.yml"
+
+- stat: path=/etc/freeradius/3.0/certs/server.pem
+  register: rad_crt
+  tags: freeradius
+
+- name: Prepare config for new certificates
+  template: src={{item.src}} dest={{item.dest}}
+  with_items:
+    - { src: templates/certs/ca.cnf.j2          , dest: /etc/freeradius/3.0/certs/ca.cnf           }
+    - { src: templates/certs/client.cnf.j2      , dest: /etc/freeradius/3.0/certs/client.cnf       }
+    - { src: templates/certs/inner-server.cnf.j2, dest: /etc/freeradius/3.0/certs/inner-server.cnf }
+    - { src: templates/certs/server.cnf.j2      , dest: /etc/freeradius/3.0/certs/server.cnf       }
+    - { src: templates/certs/xpextensions.j2    , dest: /etc/freeradius/3.0/certs/xpextensions     }
+  when: rad_crt.stat.exists == False
+  become: yes
+  become_user: freerad
+  tags: freeradius
+
+- name: Create certificates
+  shell: |2
+    make
+    chown freerad:freerad *
+  args:
+    chdir: /etc/freeradius/3.0/certs/
+    creates: server.pem
+  when: rad_crt.stat.exists == False
+  become: yes
+  become_user: freerad
+  tags: freeradius
+
+# This block can be removed when we revert to a stock package
+- name: Deal with the quirks of the 3.x version (not needed for stock version)
+  become: yes
+  block:
+    - name: Preload libpam.so.0 for FreeRADIUS 3.x
+      lineinfile:
+        path: /etc/default/freeradius
+        regexp: "^LD_PRELOAD="
+        line: "LD_PRELOAD=/lib/{{ansible_userspace_architecture}}-linux-gnu/libpam.so.0"
+        backup: yes
+    - name: Put a note into the MOTD
+      copy:
+        dest: /etc/update-motd.d/99-freeradius-3-quirks
+        content: |2
+          #!/bin/sh
+          if $(grep -q LD_PRELOAD /etc/default/freeradius); then
+            printf "\n"
+            printf "FreeRADIUS 3.x has some quirks.\n"
+            printf "If you need to run it in debugging mode, use:\n"
+            printf "$ LD_PRELOAD=/lib/{{ansible_userspace_architecture}}-linux-gnu/libpam.so.0 freeradius -X\n\n"
+          fi
+        owner: root
+        group: root
+        mode: 0755
+  when: use_pam is defined and use_pam
+  tags: freeradius
+
+- name: Start the FreeRADIUS service
+  become: yes
+  systemd:
+    name: freeradius
+    state: started
+    enabled: yes
+  tags: freeradius
+
+- name: Install cleanup task for detail files
+  become: yes
+  copy:
+    src: freeradius-radacctclean.sh
+    dest: /etc/cron.daily/freeradius-radacctclean
+    owner: root
+    group: root
+    mode: 0755
+  tags: freeradius
