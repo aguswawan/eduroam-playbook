@@ -22,7 +22,7 @@ Role Variables
    * `ip` - IP address of the FLR server
    * `port` - port of the FLR server
    * `secret` - the RADIUS secret negotiated with the NRO/FLR operator
- * `radius_realm` - the Realm to use for your users, typically your primary DNS domain name (defaults to `example.ac.za`)
+ * `radius_realm` - the Realm to use for your users, typically your primary DNS domain name (defaults to `uii.ac.id`)
  * `radius_local_users` - a list of local "files" users to create. For each user, the following should be provided (defaults to creating an nren_radius_test user):
    * `username`
    * `password`

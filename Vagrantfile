@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   # https://docs.vagrantup.com.
 
   config.ssh.insert_key = true
-  config.vm.box = "xenial/ubuntu-16.04"
+  config.vm.box = "kzielins/ubuntu-16.04-amd64"
   #config.vm.box = "bento/ubuntu-18.04"
 
   config.vm.define "eduroam" do |my|
