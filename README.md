@@ -12,7 +12,7 @@ The playbook has been set up to be readily used in a [Vagrant](https://www.vagra
 
 ```bash
 git clone https://github.com/aguswawan/eduroam-playbook.git
-cd eduroam-imap-playbook
+cd eduroam-playbook
 vagrant up
 vagrant ssh eduroam
 ```
