@@ -8,31 +8,15 @@ Our main use-case for this is allowing [Google GSuite](https://gsuite.google.com
 
 All configuration happens in [group_vars/all](group_vars/all). You should edit that file to suit your enviroment.
 
-The playbook has been set up to be readily used in a [Vagrant](https://www.vagrantup.com/) enviroment with [VirtualBox](https://www.virtualbox.org/) as the provider. In such an enviroment, the following should get you going:
-
-```bash
-git clone https://github.com/aguswawan/eduroam-playbook.git
-cd eduroam-playbook
-vagrant up
-vagrant ssh eduroam
-```
-In other enviroments, the [Vagrantfile](Vagrantfile) may need to be edited. Alternatively, the playbook should be usable without Vagrant given an appropriate [inventory](inventories/).
-
-The playbook is also (hopefully) self documenting, allowing people who don't make use of Ansible to follow the configuration.
-
 ## Roles
 
 This playbook contains a number of roles, all of which should be usable independently and outside of the playbook.
-
-### [pam-imap](roles/pam-imap)
-
-The **pam-imap** role downloads, compiles, installs, and configures the [pam-imap](https://github.com/wdoekes/pam-imap) pluggable authentication module. This PAM module allows for authentication against an IMAP server. By default, this is configured to be `imap.gmail.com`. See the [documentation](roles/pam-imap/README.md) for how to change this.
 
 ### [freeradius-eduroam](roles/freeradius-eduroam)
 
 The **freeradius-eduroam** role installs and configures FreeRADIUS for eduroam EAP authentication. In the context of this IMAP playbook, it configures it to use PAM as an authentication backend.
 
-The configuration (and the structure of the role) largely follow the GÉANT documentation for [eduroam service providers](https://wiki.geant.org/display/H2eduroam/freeradius-sp) and [eduroam identity providers](https://wiki.geant.org/display/H2eduroam/freeradius-idp). There are some minor differences to reflect later versions of FreeRADIUS, and to leave a little documentation in place. In addition, the role defaults to creating configuration relevant to the [South African NRO](https://eduroam.ac.za/). However, the [documentation](roles/freeradius-eduroam/README.md) explains how to change this.
+The configuration (and the structure of the role) largely follow the GÉANT documentation for [eduroam service providers](https://wiki.geant.org/display/H2eduroam/freeradius-sp) and [eduroam identity providers](https://wiki.geant.org/display/H2eduroam/freeradius-idp). There are some minor differences to reflect later versions of FreeRADIUS, and to leave a little documentation in place. In addition, the role defaults to creating configuration relevant to the [Indonesian NRO]. However, the [documentation](roles/freeradius-eduroam/README.md) explains how to change this.
 
 ### [eapol_test](roles/eapol_test)
 
@@ -41,8 +25,6 @@ The **eapol_test** role builds and installs the [eapol_test](http://deployingrad
 ## Additional configuration
 
 There are a couple of things that are not configured by the playbook and may require additional configuration.
-
-* **IMAP SSL Certificate** -- if your IMAP server does not use a certificate that's in the trust store for your server, you may need to supply the certificate and configure [roles/pam-imap/templates/pam_imap.conf.j2](pam_imap.conf) accordingly.
 
 * **EAP SSL Certificate** -- the role uses the default certificates created by the Ubuntu FreeRADIUS package. You may want to replace these.
 
