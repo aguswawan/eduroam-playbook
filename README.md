@@ -12,7 +12,7 @@ untuk konfigurasi eduroam SP dan IdP sebagian besar mengikuti dokumentasi dan GÃ
 
 untuk testing authentication menggunakan [eapol_test](http://deployingradius.com/scripts/eapol_test/) and [rad_eap_test](https://github.com/CESNET/rad_eap_test).
 
-# untuk langkah langkah instalasi eduroam SP dan Idp ikuti langkah berikut
+# untuk langkah langkah instalasi eduroam SP dan IdP ikuti langkah berikut
 
 add repository
 ```bash
