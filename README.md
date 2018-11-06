@@ -4,7 +4,7 @@ berikut adalah [Ansible playbook](http://docs.ansible.com/ansible/latest/playboo
 ## menggunakan ansible playbook
 semua konfigurasi berada di [group_vars/all](group_vars/all). Kamu harus mengubah file tersebut sehingga sesuai dengan enviroment-mu.
 
-##Roles
+## Roles
 ### [freeradius-eduroam](roles/freeradius-eduroam)
 untuk konfigurasi eduroam SP dan IdP sebagian besar mengikuti dokumentasi dan GÉANT [eduroam service providers](https://wiki.geant.org/display/H2eduroam/freeradius-sp) and [eduroam identity providers](https://wiki.geant.org/display/H2eduroam/freeradius-idp).
 
