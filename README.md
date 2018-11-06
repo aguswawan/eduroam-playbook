@@ -1,6 +1,5 @@
 # eduroam-playbook Ansible playbook
-berikut adalah [Ansible playbook](http://docs.ansible.com/ansible/latest/playbooks.html) untuk set up [eduroam](https://eduroam.org/)
-untuk info lebih lanjut mengenai silahkan kunjungi [eduroamID](https://eduroamid.info/)
+berikut adalah [Ansible playbook](http://docs.ansible.com/ansible/latest/playbooks.html) untuk set up [eduroam](https://eduroam.org/) info lebih lanjut mengenai silahkan kunjungi [eduroamID](https://eduroamid.info/)
 
 ## menggunakan ansible playbook
 semua konfigurasi berada di [group_vars/all](group_vars/all). Kamu harus mengubah file tersebut sehingga sesuai dengan enviroment-mu.
