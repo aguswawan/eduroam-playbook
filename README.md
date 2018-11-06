@@ -45,12 +45,13 @@ eduroam_flr_servers:
     secret: MySharedSecret
 
 # Your realm for eduroam (usually your primary DNS name)
-radius_realm: uii.ac.id
+# edit university with your institution like itb, uii, ugm, etc
+radius_realm: university.ac.id
 
 # Details of test account(s) to create within your realm
 radius_local_users:
   - username: eduroamuser
-    password: bsiuii
+    password: passworduser
 ```
 install IRS - Run Ansible
 ```bash
@@ -58,5 +59,5 @@ ansible-playbook -i inventories/development site.yml
 ```
 testing local and remote account
 ```bash
-rad_eap_test -H localhost -P 1812 -S testing123 -m WPA-EAP -s eduroam  -e TTLS -2 PAP -u eduroamuser@uii.ac.id -p bsiuii
+rad_eap_test -H localhost -P 1812 -S testing123 -m WPA-EAP -s eduroam  -e TTLS -2 PAP -u eduroamuser@university.ac.id -p passworduser
 ```
