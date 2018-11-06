@@ -1,62 +1,43 @@
 ---
-# The upstream eduroam federation-level RADIUS servers
-# These are for sample, not working; get yours from your NRO
+
+# untuk konfigurasi dibawah ini akan anda dapatkan dari NRO Indonesia(ITB & UII).
 eduroam_flr_servers:
   - hostname: flr1.uii.ac.id
     ip: 103.220.113.18
     port: 1812
     secret: MySharedSecret
-#  - hostname: flr2.uii.ac.id
-#    ip: 103.220.113.18
-#    port: 1812
-#    secret: MySharedSecret
 
-# Your realm for eduroam (usually your primary DNS name)
-radius_realm: uii.ac.id
+# realm anda untuk eduroam(biasanya domain institusi anda, misal:uii.ac.id atau itb.ac.id)
+radius_realm: university.ac.id
 
-# Details of test account(s) to create within your realm
+# user dan password local user di institusi anda
 radius_local_users:
-  - username: eduroam
-    password: bsiuii2018
-
-# Details of your IMAP server
-###
-#imap_server: mail.kisti.re.kr
-#imap_port: 993
-#imap_ssl: yes
-
-# If your IMAP server requires a realm/domain for login (default to same as RADIUS)
-#imap_realm: "{{radius_realm}}"
-
-# How long (in seconds) to cache credentials for. Set to no to disable.
-##imap_cache: 600
-
-# The name of the PAM service to use for both FreeRADIUS and pam-imap
-##pam_service_name: pam-imap-radius
+  - username: eduroamuser
+    password: passworduser
 
 # Common Certificate Infomation
 cert_country: ID
 cert_state: Yogyakarta
 cert_local: Yogyakarta
-cert_org: Universitas Islam Indonesia
+cert_org: Universitas Anda #silahkan di edit sesuai dengan institusi anda
 cert_unit: Yogyakarta research and education network
 #cert_crl_uri: ""
 
 # CA Infomation
 #cert_ca_email: ca@kisti.re.kr
 #cert_ca_email: ""
-cert_ca_common_name: "UII Certificate Authority"
+cert_ca_common_name: "University Certificate Authority"
 
 # Server Certificate Infomation
 #cert_server_email: ca@kisti.re.kr
 #cert_server_email: ""
-cert_server_common_name: flr1.uii.ac.id
+cert_server_common_name: university.ac.id
 
 # Inner Server Certificate Infomation
 #cert_inner_server_email: ca@kisti.re.kr
 #cert_inner_server_email: ""
-cert_inner_server_common_name: inside.flr1.uii.ac.id
+cert_inner_server_common_name: inner.university.ac.id
 
 # Client Certificate Infomation
-cert_client_email: eduroam@uii.ac.id
+cert_client_email: eduroam@universitas.ac.id
 cert_client_common_name: "{{cert_client_email}}"

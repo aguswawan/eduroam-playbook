@@ -35,20 +35,18 @@ nano group_vars/all
 change ansible group variable
 ```bash
 ---
-# The upstream eduroam federation-level RADIUS servers
-# These are for sample, not working; get yours from your NRO
-# to get secret, please contact the responsible of NRO Indonesia (ITB or UII)
+
+# untuk konfigurasi dibawah ini akan anda dapatkan dari NRO Indonesia(ITB & UII).
 eduroam_flr_servers:
-  - hostname: flr.uii.ac.id
+  - hostname: flr1.uii.ac.id
     ip: 103.220.113.18
     port: 1812
     secret: MySharedSecret
 
-# Your realm for eduroam (usually your primary DNS name)
-# edit university with your institution like itb, uii, ugm, etc
+# realm anda untuk eduroam(biasanya domain institusi anda, misal:uii.ac.id atau itb.ac.id)
 radius_realm: university.ac.id
 
-# Details of test account(s) to create within your realm
+# user dan password local user di institusi anda
 radius_local_users:
   - username: eduroamuser
     password: passworduser
