@@ -55,7 +55,11 @@ install IRS - Run Ansible
 ```bash
 ansible-playbook -i inventories/development site.yml
 ```
-testing local and remote account
+testing local user
 ```bash
 rad_eap_test -H localhost -P 1812 -S testing123 -m WPA-EAP -s eduroam  -e TTLS -2 PAP -u eduroamuser@university.ac.id -p passworduser
+```
+testing remote user
+```bash
+rad_eap_test -H localhost -P 1812 -S testing123 -m WPA-EAP -s eduroam  -e PEAP -2 MSCHAPV2 -u demouser@uii.ac.id -p rahasia
 ```
